@@ -1,0 +1,15 @@
+<!-- <p>progress-component works!</p> -->
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+  *ngIf="isVisible"
+>
+  <div class="bg-white rounded-lg p-8 max-w-4xl w-full mx-4">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold">{{ userName }}'s workout progress</h2>
+      <button (click)="close()" class="text-gray-500 hover:text-gray-700">
+        ✕
+      </button>
+    </div>
+    <canvas #chartCanvas></canvas>
+  </div>
+</div>

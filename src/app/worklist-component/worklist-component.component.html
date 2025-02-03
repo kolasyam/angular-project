@@ -1,0 +1,119 @@
+<!-- <p>worklist-component works!</p> -->
+<div class="max-w-6xl mx-auto p-6">
+  <div class="bg-white rounded-lg shadow-md p-8">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">Workout List</h1>
+      <a
+        href="/"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Add New Workout
+      </a>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div>
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="filterWorkouts()"
+          placeholder="Search by name"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <select
+          [(ngModel)]="selectedWorkoutType"
+          (ngModelChange)="filterWorkouts()"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md"
+        >
+          <option value="">All Workout Types</option>
+          <option *ngFor="let type of workoutTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Workout Table -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Name
+            </th>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Workouts
+            </th>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Number of Workouts
+            </th>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Total Workout Minutes
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let workout of paginatedWorkouts">
+            <td class="px-6 py-4 whitespace-nowrap">{{ workout.userName }}</td>
+            <td class="px-6 py-4">{{ workout.workoutTypes.join(", ") }}</td>
+            <td class="px-6 py-4">{{ workout.workoutTypes.length }}</td>
+            <td class="px-6 py-4">{{ workout.workoutMinutes }}</td>
+            <td class="px-6 py-4">
+              <button
+                (click)="showProgressChart(workout.userName)"
+                class="text-blue-600 hover:text-blue-800"
+              >
+                See Progress Chart
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-4 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          class="px-3 py-1 border rounded disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+          class="px-3 py-1 border rounded disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span>Items per page:</span>
+        <select
+          [(ngModel)]="itemsPerPage"
+          (ngModelChange)="onItemsPerPageChange()"
+          class="border rounded px-2 py-1"
+        >
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <app-progress-component #progressChart></app-progress-component>
+</div>
